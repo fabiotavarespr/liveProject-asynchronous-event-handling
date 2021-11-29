@@ -4,7 +4,7 @@ Manning Live Project - Asynchronous Event Handling Using Microservices and Kafka
 # Structure
 
 ```shell
-├── 01-solution
+├── 01-milestone
 │         ├── examples
 │         │         ├── error.json
 │         │         ├── notification.json
