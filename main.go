@@ -6,12 +6,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-func main(){
+func main() {
 	app := fiber.New()
-
 	app.Use(cors.New(cors.Config{
-		AllowCredentials: true,
-	}))
+		AllowCredentials: true}))
 
 	routes.Setup(app)
 

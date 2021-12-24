@@ -83,3 +83,12 @@ topic-consumer-DeadLetterQueue: ## Consumer Topic DeadLetterQueue
 
 topic-producer-DeadLetterQueue: ## Consumer Topic DeadLetterQueue
 	docker exec -it $(CONTAINER_NAME) kafka-console-producer --bootstrap-server localhost:9092 --topic DeadLetterQueue
+
+fmt: ## Go Format
+	$(GO_CMD) fmt ./...
+
+tidy: ## Go Mod tidy
+	$(GO_CMD) mod tidy
+
+run-go: fmt tidy ## Run Project 
+	$(GO_CMD) run main.go
