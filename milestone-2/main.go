@@ -23,7 +23,7 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-// @BasePath /api
+// @BasePath /
 func main() {
 	// Define Fiber config.
 	config := configs.FiberConfig()
@@ -37,6 +37,7 @@ func main() {
 	// Routes.
 	routes.SwaggerRoute(app)  // Register a route for API Docs (Swagger).
 	routes.HealthRoute(app)   // Register a health routes.
+	routes.PublicRoutes(app)  // Register a public routes for app.
 	routes.NotFoundRoute(app) // Register route for 404 Error.
 
 	// Start server (with graceful shutdown).

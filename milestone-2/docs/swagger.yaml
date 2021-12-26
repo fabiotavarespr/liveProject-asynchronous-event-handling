@@ -1,9 +1,51 @@
-basePath: /api
+basePath: /
 definitions:
+  models.Address:
+    properties:
+      city:
+        type: string
+      line1:
+        type: string
+      line2:
+        type: string
+      postalCode:
+        type: string
+      state:
+        type: string
+    type: object
+  models.Customer:
+    properties:
+      emailAddress:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      shippingAddress:
+        $ref: '#/definitions/models.Address'
+    type: object
   models.Health:
     properties:
       status:
         type: string
+    type: object
+  models.Order:
+    properties:
+      customer:
+        $ref: '#/definitions/models.Customer'
+      id:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+    type: object
+  models.Product:
+    properties:
+      productCode:
+        type: string
+      quantity:
+        type: integer
     type: object
 info:
   contact:
@@ -30,6 +72,21 @@ paths:
               $ref: '#/definitions/models.Health'
             type: array
       summary: micro-service health check
+  /v1/order:
+    post:
+      consumes:
+      - application/json
+      description: Create a new order.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: create a new order
+      tags:
+      - Order
 securityDefinitions:
   ApiKeyAuth:
     in: header

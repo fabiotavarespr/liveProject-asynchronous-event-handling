@@ -14,13 +14,11 @@ import (
 func GetHealth(c *fiber.Ctx) error {
 
 	health := models.Health{
-		Status: "OK",
+		Status: "UP",
 	}
 
 	// Return status 200 OK.
 	return c.JSON(fiber.Map{
-		"error":  false,
-		"msg":    nil,
 		"health": health,
 	})
 }

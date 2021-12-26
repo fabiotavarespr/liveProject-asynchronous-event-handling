@@ -18,23 +18,56 @@ Build a Basic Microservice and Kafka Event Publisher
 
 ```shell
 .
+├── Makefile
 ├── README.md
-├── examples
-│   ├── error.json
-│   ├── notification.json
-│   ├── order_confirmed.json
-│   ├── order_picked_and_packed.json
-│   └── order_received.json
-└── scripts
-    ├── docker-compose
-    │   ├── Makefile
-    │   ├── README.md
-    │   └── docker-compose.yaml
-    └── shell
-        ├── README.md
-        ├── create_topics.sh
-        ├── start_kafka.sh
-        └── start_zookeeper.sh
+├── docs
+│   ├── API_DOCS.md
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
+├── go.mod
+├── go.sum
+├── main.go
+├── resources
+│   ├── examples
+│   │   ├── error.json
+│   │   ├── notification.json
+│   │   ├── order_confirmed.json
+│   │   ├── order_picked_and_packed.json
+│   │   └── order_received.json
+│   └── scripts
+│       ├── docker-compose
+│       │   ├── Makefile
+│       │   ├── README.md
+│       │   └── docker-compose.yaml
+│       └── shell
+│           ├── README.md
+│           ├── create_topics.sh
+│           ├── start_kafka.sh
+│           └── start_zookeeper.sh
+└── src
+    ├── app
+    │   ├── BUSINESS_LOGIC.md
+    │   ├── controllers
+    │   │   ├── health_controller.go
+    │   │   └── order_controller.go
+    │   └── models
+    │       └── health_model.go
+    ├── pkg
+    │   ├── PROJECT_SPECIFIC.md
+    │   ├── configs
+    │   │   └── fiber_config.go
+    │   ├── middleware
+    │   │   └── fiber_middleware.go
+    │   ├── routes
+    │   │   ├── health_route.go
+    │   │   ├── not_found_route.go
+    │   │   ├── public_routes.go
+    │   │   └── swagger_route.go
+    │   └── utils
+    │       └── start_server.go
+    └── platform
+        └── PLATFORM_LEVEL.md
 
-4 directories, 13 files
+16 directories, 34 files
 ```
