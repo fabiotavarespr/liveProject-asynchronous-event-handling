@@ -7,6 +7,8 @@ import (
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/middleware"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/routes"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/utils"
+
+	_ "github.com/fabiotavarespr/liveProject-asynchronous-event-handling/docs"
 )
 
 // @title API
