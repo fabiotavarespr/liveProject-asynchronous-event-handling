@@ -1,17 +1,41 @@
 package main
 
 import (
-	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/routes"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/configs"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/middleware"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/routes"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/utils"
 )
 
+// @title API
+// @version 1.0
+// @description This is an auto-generated API Docs.
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email your@mail.com
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+// @BasePath /api
 func main() {
-	app := fiber.New()
-	app.Use(cors.New(cors.Config{
-		AllowCredentials: true}))
+	// Define Fiber config.
+	config := configs.FiberConfig()
 
-	routes.Setup(app)
+	// Define a new Fiber app with config.
+	app := fiber.New(config)
 
-	app.Listen(":8000")
+	// Middlewares.
+	middleware.FiberMiddleware(app) // Register Fiber's middleware for app.
+
+	// Routes.
+	routes.SwaggerRoute(app)  // Register a route for API Docs (Swagger).
+	routes.HealthRoute(app)   // Register a health routes.
+	routes.NotFoundRoute(app) // Register route for 404 Error.
+
+	// Start server (with graceful shutdown).
+	utils.StartServer(app)
 }
