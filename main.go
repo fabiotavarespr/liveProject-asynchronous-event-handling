@@ -9,6 +9,7 @@ import (
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/utils"
 
 	_ "github.com/fabiotavarespr/liveProject-asynchronous-event-handling/docs"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 // @title API

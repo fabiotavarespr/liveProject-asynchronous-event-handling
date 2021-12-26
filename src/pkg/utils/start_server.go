@@ -38,10 +38,7 @@ func StartServerWithGracefulShutdown(a *fiber.App) {
 // StartServer func for starting a simple server.
 func StartServer(a *fiber.App) {
 	// Run server.
-	// if err := a.Listen(os.Getenv("SERVER_URL")); err != nil {
-	// 	log.Printf("Oops... Server is not running! Reason: %v", err)
-	// }
-	if err := a.Listen("0.0.0.0:8000"); err != nil {
+	if err := a.Listen(os.Getenv("SERVER_URL")); err != nil {
 		log.Printf("Oops... Server is not running! Reason: %v", err)
 	}
 }

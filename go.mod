@@ -5,6 +5,8 @@ go 1.17
 require (
 	github.com/arsmn/fiber-swagger/v2 v2.20.0
 	github.com/gofiber/fiber/v2 v2.22.0
+	github.com/joho/godotenv v1.4.0
+	github.com/swaggo/swag v1.7.8
 )
 
 require (
@@ -20,7 +22,6 @@ require (
 	github.com/klauspost/compress v1.13.4 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2 // indirect
-	github.com/swaggo/swag v1.7.8 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.31.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
