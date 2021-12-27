@@ -1,3 +1,10 @@
+# macOS
+**/.DS_Store
+
+# Dev build
+build/
+tmp/
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -16,3 +23,8 @@
 
 # IDES
 .idea
+.vscode
+
+# Environment variables
+.env
+
