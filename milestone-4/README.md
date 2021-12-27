@@ -2,13 +2,13 @@
 [Manning Live Project - Asynchronous Event Handling Using Microservices and Kafka](https://www.manning.com/liveproject/asynchronous-event-handling-using-microservices-and-kafka)
 
 - [Live Project - Asynchronous Event Handling Using Microservices and Kafka](#live-project---asynchronous-event-handling-using-microservices-and-kafka)
-- [Milestone - 3](#milestone---3)
+- [Milestone - 4](#milestone---4)
   - [Objective](#objective)
   - [Importance to project](#importance-to-project)
   - [Workflow](#workflow)
   - [Deliverable](#deliverable)
 
-# Milestone - 3
+# Milestone - 4
 Build an Inventory Consumer That Handles Order Received Events
 
 ## Objective
