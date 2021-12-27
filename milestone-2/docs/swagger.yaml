@@ -61,7 +61,7 @@ info:
 paths:
   /health:
     get:
-      description: Micro-service health check.
+      description: Health check.
       produces:
       - application/json
       responses:
@@ -71,12 +71,19 @@ paths:
             items:
               $ref: '#/definitions/models.Health'
             type: array
-      summary: micro-service health check
+      summary: health check
   /v1/order:
     post:
       consumes:
       - application/json
       description: Create a new order.
+      parameters:
+      - description: Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
       produces:
       - application/json
       responses:
@@ -87,9 +94,4 @@ paths:
       summary: create a new order
       tags:
       - Order
-securityDefinitions:
-  ApiKeyAuth:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

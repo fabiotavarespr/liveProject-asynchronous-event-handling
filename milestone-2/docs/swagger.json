@@ -18,11 +18,11 @@
     "paths": {
         "/health": {
             "get": {
-                "description": "Micro-service health check.",
+                "description": "Health check.",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "micro-service health check",
+                "summary": "health check",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -49,6 +49,17 @@
                     "Order"
                 ],
                 "summary": "create a new order",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -133,13 +144,6 @@
                     "type": "integer"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }

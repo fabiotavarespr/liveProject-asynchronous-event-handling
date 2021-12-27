@@ -33,11 +33,11 @@ var doc = `{
     "paths": {
         "/health": {
             "get": {
-                "description": "Micro-service health check.",
+                "description": "Health check.",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "micro-service health check",
+                "summary": "health check",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -64,6 +64,17 @@ var doc = `{
                     "Order"
                 ],
                 "summary": "create a new order",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -148,13 +159,6 @@ var doc = `{
                     "type": "integer"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }`

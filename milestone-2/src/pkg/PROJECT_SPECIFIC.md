@@ -4,6 +4,5 @@
 
 - `./pkg/configs` folder for configuration functions
 - `./pkg/middleware` folder for add middleware (Fiber and yours)
-- `./pkg/routes` folder for describe routes of your project
-- `./pkg/repository` folder for describe `const` of your project
+- `./pkg/routes` folder for describe routes
 - `./pkg/utils` folder with utility functions (server starter, error checker, etc)

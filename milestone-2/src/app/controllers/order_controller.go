@@ -1,8 +1,13 @@
 package controllers
 
 import (
+	"time"
+
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/app/events"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/app/models"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/app/topics"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/utils"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/platform/producers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -13,6 +18,7 @@ import (
 // @Tags Order
 // @Accept json
 // @Produce json
+// @Param order body models.Order true "Order"
 // @Success 201 {object} models.Order
 // @Router /v1/order [post]
 func PostOrder(c *fiber.Ctx) error {
@@ -37,6 +43,22 @@ func PostOrder(c *fiber.Ctx) error {
 	// Validate order fields.
 	if err := validate.Struct(order); err != nil {
 		// Return, if some fields are not valid.
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": true,
+			"msg":   utils.ValidatorErrors(err),
+		})
+	}
+
+	var event = events.OrderReceived{
+		EventBase: events.BaseEvent{
+			EventID:        uuid.New(),
+			EventName:      topics.TopicOrderReceived,
+			EventTimestamp: time.Now(),
+		},
+		EventBody: *order,
+	}
+
+	if err := producers.ProducerEvent(event, topics.TopicOrderReceived); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": true,
 			"msg":   utils.ValidatorErrors(err),

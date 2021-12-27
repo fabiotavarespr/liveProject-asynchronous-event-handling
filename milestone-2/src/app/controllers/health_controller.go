@@ -5,16 +5,21 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+const (
+	UP   = "UP"
+	DOWN = "DOWN"
+)
+
 // GetHealth func check health.
-// @Description Micro-service health check.
-// @Summary micro-service health check
+// @Description Health check.
+// @Summary health check
 // @Produce json
 // @Success 200 {array} models.Health
 // @Router /health [get]
 func GetHealth(c *fiber.Ctx) error {
 
 	health := models.Health{
-		Status: "UP",
+		Status: UP,
 	}
 
 	// Return status 200 OK.
