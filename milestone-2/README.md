@@ -7,7 +7,6 @@
   - [Importance to project](#importance-to-project)
   - [Workflow](#workflow)
   - [Deliverable](#deliverable)
-  - [Structure](#structure)
 
 # Milestone - 2
 Build a Basic Microservice and Kafka Event Publisher
@@ -33,71 +32,3 @@ The goal of this milestone is to gain experience in creating a basic RESTful mic
 ## Deliverable
 
 The deliverable for this milestone is a basic RESTful microservice containing a health endpoint and a separate event publisher that can publish an event to the OrderReceived topic in Kafka.
-
-## Structure
-
-```shell
-.
-├── Makefile
-├── README.md
-├── docs
-│   ├── API_DOCS.md
-│   ├── docs.go
-│   ├── swagger.json
-│   └── swagger.yaml
-├── go.mod
-├── go.sum
-├── main.go
-├── resources
-│   ├── examples
-│   │   ├── error.json
-│   │   ├── notification.json
-│   │   ├── order_confirmed.json
-│   │   ├── order_picked_and_packed.json
-│   │   └── order_received.json
-│   └── scripts
-│       ├── docker-compose
-│       │   ├── Makefile
-│       │   ├── README.md
-│       │   └── docker-compose.yaml
-│       └── shell
-│           ├── README.md
-│           ├── create_topics.sh
-│           ├── start_kafka.sh
-│           └── start_zookeeper.sh
-└── src
-    ├── app
-    │   ├── BUSINESS_LOGIC.md
-    │   ├── controllers
-    │   │   ├── health_controller.go
-    │   │   └── order_controller.go
-    │   ├── events
-    │   │   ├── events.go
-    │   │   └── order_received.go
-    │   ├── models
-    │   │   ├── error_model.go
-    │   │   ├── health_model.go
-    │   │   └── order_model.go
-    │   └── topics
-    │       └── topics.go
-    ├── pkg
-    │   ├── PROJECT_SPECIFIC.md
-    │   ├── configs
-    │   │   └── fiber_config.go
-    │   ├── middleware
-    │   │   └── fiber_middleware.go
-    │   ├── routes
-    │   │   ├── health_route.go
-    │   │   ├── not_found_route.go
-    │   │   ├── public_routes.go
-    │   │   └── swagger_route.go
-    │   └── utils
-    │       ├── start_server.go
-    │       └── validator.go
-    └── platform
-        ├── PLATFORM_LEVEL.md
-        └── producers
-            └── producer.go
-
-19 directories, 41 files
-```

@@ -7,7 +7,6 @@
   - [Importance to project](#importance-to-project)
   - [Workflow](#workflow)
 - [Deliverable](#deliverable)
-  - [Structure](#structure)
 
 # Milestone - 1
 Kafka Basics Using the Command Line
@@ -51,28 +50,3 @@ Kafka Basics Using the Command Line
 # Deliverable
 
 The deliverable for this milestone is a set of startup scripts. It is recommended that scripts be created to start Zookeeper and Kafka as well as create all the topics that will be used throughout the project. Having these scripts will ensure consistency and eliminate potential human error that could lead to unnecessary troubleshooting efforts. Your scripts should be executable from the command line.
-
-## Structure
-
-```shell
-.
-├── README.md
-├── examples
-│   ├── error.json
-│   ├── notification.json
-│   ├── order_confirmed.json
-│   ├── order_picked_and_packed.json
-│   └── order_received.json
-└── scripts
-    ├── docker-compose
-    │   ├── Makefile
-    │   ├── README.md
-    │   └── docker-compose.yaml
-    └── shell
-        ├── README.md
-        ├── create_topics.sh
-        ├── start_kafka.sh
-        └── start_zookeeper.sh
-
-4 directories, 13 files
-```
