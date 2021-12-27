@@ -23,14 +23,13 @@ The goal of this milestone is to gain experience creating a RESTful microservice
 
 ## Workflow
 
-Create a new Order microservice in Go.
-
-1 Create an HTTP POST endpoint that is responsible for receiving a payload that represents an order.
-Create a function that will verify that the order payload is valid.
-Create a function that will translate the order payload into the relevant event schema.
-Publish an event to the OrderReceived topic in Kafka indicating that an order has been received.
-Compose the above functions to create an end-to-end solution.
-Test that the service works as expected by posting an order payload to a running service. Verify that it was received by the OrderReceived topic by using the appropriate Kafka command-line operation. The easiest way to verify that an event exists in a topic is to use the command illustrated in Step 5 of the “Apache Kafka Quickstart” guide.
+- 1 Create a new Order microservice in Go.
+  - Create an HTTP POST endpoint that is responsible for receiving a payload that represents an order.
+  - Create a function that will verify that the order payload is valid.
+  - Create a function that will translate the order payload into the relevant event schema.
+  - Publish an event to the OrderReceived topic in Kafka indicating that an order has been received.
+  - Compose the above functions to create an end-to-end solution.
+- 2 Test that the service works as expected by posting an order payload to a running service. Verify that it was received by the OrderReceived topic by using the appropriate Kafka command-line operation. The easiest way to verify that an event exists in a topic is to use the command illustrated in Step 5 of the “Apache Kafka Quickstart” guide.
 
 ## Deliverable
 
