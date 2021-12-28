@@ -91,7 +91,7 @@ tidy: ## Go Mod tidy
 	$(GO_CMD) mod tidy
 
 run-go: fmt ## Run Project 
-	$(GO_CMD) run main.go
+	$(GO_CMD) run cmd/api/main.go
 
 download-dependencies: ## Download Dependencies
 	go get -d github.com/swaggo/swag/cmd/swag
