@@ -1,11 +1,8 @@
 package middleware
 
 import (
-	"time"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 )
@@ -23,10 +20,10 @@ func FiberMiddleware(a *fiber.App) {
 		// Add Recover
 		recover.New(),
 
-		// Add simple logger.
-		logger.New(logger.Config{
-			Format:     "[${ip}]:${port} ${status} - ${method} ${path}\n",
-			TimeFormat: time.RFC3339,
-		}),
+		// // Add simple logger.
+		// logger.New(logger.Config{
+		// 	Format:     "[${ip}]:${port} ${status} - ${method} ${path}\n",
+		// 	TimeFormat: time.RFC3339,
+		// }),
 	)
 }

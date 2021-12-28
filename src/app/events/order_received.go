@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/app/models"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/app/topics"
 	"github.com/google/uuid"
 )
 
@@ -20,7 +21,7 @@ func (or OrderReceived) ID() uuid.UUID {
 
 // Name returns the name of the event
 func (or OrderReceived) Name() string {
-	return "OrderReceived"
+	return topics.TopicOrderReceived
 }
 
 // Timestamp returns the unique timestamp of the event

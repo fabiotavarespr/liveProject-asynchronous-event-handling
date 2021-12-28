@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/configs"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/logger"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/middleware"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/routes"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/utils"
@@ -23,6 +25,18 @@ import (
 // @in header
 // @BasePath /
 func main() {
+
+	logger.Init(&logger.Option{
+		ServiceName:    "App",
+		ServiceVersion: "0.0.1",
+		Environment:    "dev",
+		LogLevel:       "debug",
+	})
+
+	defer logger.Sync()
+
+	logger.Info(fmt.Sprintf("Started logger"), nil)
+
 	// Define Fiber config.
 	config := configs.FiberConfig()
 

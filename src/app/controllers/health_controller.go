@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/app/models"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/logger"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/src/pkg/logger/attributes"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,6 +23,11 @@ func GetHealth(c *fiber.Ctx) error {
 	health := models.Health{
 		Status: UP,
 	}
+
+	details := attributes.New()
+	details["health"] = health
+
+	logger.Info("Handler - GET - Health", details)
 
 	// Return status 200 OK.
 	return c.JSON(fiber.Map{
