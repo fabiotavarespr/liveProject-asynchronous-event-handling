@@ -89,6 +89,12 @@ var doc = `{
     "definitions": {
         "models.Address": {
             "type": "object",
+            "required": [
+                "city",
+                "line1",
+                "postalCode",
+                "state"
+            ],
             "properties": {
                 "city": {
                     "type": "string"
@@ -109,6 +115,12 @@ var doc = `{
         },
         "models.Customer": {
             "type": "object",
+            "required": [
+                "emailAddress",
+                "firstName",
+                "lastName",
+                "shippingAddress"
+            ],
             "properties": {
                 "emailAddress": {
                     "type": "string"
@@ -134,6 +146,11 @@ var doc = `{
         },
         "models.Order": {
             "type": "object",
+            "required": [
+                "customer",
+                "id",
+                "products"
+            ],
             "properties": {
                 "customer": {
                     "$ref": "#/definitions/models.Customer"
@@ -151,6 +168,10 @@ var doc = `{
         },
         "models.Product": {
             "type": "object",
+            "required": [
+                "productCode",
+                "quantity"
+            ],
             "properties": {
                 "productCode": {
                     "type": "string"

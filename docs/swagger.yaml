@@ -12,6 +12,11 @@ definitions:
         type: string
       state:
         type: string
+    required:
+    - city
+    - line1
+    - postalCode
+    - state
     type: object
   models.Customer:
     properties:
@@ -23,6 +28,11 @@ definitions:
         type: string
       shippingAddress:
         $ref: '#/definitions/models.Address'
+    required:
+    - emailAddress
+    - firstName
+    - lastName
+    - shippingAddress
     type: object
   models.Health:
     properties:
@@ -39,6 +49,10 @@ definitions:
         items:
           $ref: '#/definitions/models.Product'
         type: array
+    required:
+    - customer
+    - id
+    - products
     type: object
   models.Product:
     properties:
@@ -46,6 +60,9 @@ definitions:
         type: string
       quantity:
         type: integer
+    required:
+    - productCode
+    - quantity
     type: object
 info:
   contact:

@@ -98,4 +98,4 @@ download-dependencies: ## Download Dependencies
 	go install github.com/swaggo/swag/cmd/swag@latest
 
 swag-run: ## Run swag
-	~/go/bin/swag init 
+	~/go/bin/swag init -g cmd/api/main.go
