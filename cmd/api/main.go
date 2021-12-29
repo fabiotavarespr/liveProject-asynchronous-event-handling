@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/utils/env"
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/configs"
@@ -26,10 +27,10 @@ import (
 func main() {
 
 	logger.Init(&logger.Option{
-		ServiceName:    "App",
-		ServiceVersion: "0.0.1",
-		Environment:    "dev",
-		LogLevel:       "debug",
+		ServiceName:    env.GetEnvWithDefaultAsString("SERVICE_NAME", "api"),
+		ServiceVersion: env.GetEnvWithDefaultAsString("SERVICE_VERSION", "0.0.1"),
+		Environment:    env.GetEnvWithDefaultAsString("ENVIRONMENT", "dev"),
+		LogLevel:       env.GetEnvWithDefaultAsString("LOG_LEVEL", "info"),
 	})
 
 	defer logger.Sync()

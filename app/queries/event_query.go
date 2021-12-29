@@ -25,7 +25,6 @@ func (q *EventsQueries) EventExists(event events.Event) (bool, error) {
 		return false, err
 	}
 
-
 	// Return query result.
 	return len(id) > 0, nil
 }

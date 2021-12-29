@@ -69,7 +69,7 @@ func PostOrder(c *fiber.Ctx) error {
 	details := attributes.New()
 	details["order"] = order
 
-	logger.Info(c.Context(), "Handler - POST - Order", details)
+	logger.Info("Handler - POST - Order", details)
 
 	// Return status 201 Created.
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{

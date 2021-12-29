@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"context"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/utils/env"
 	"sync"
 
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/logger/attributes"
@@ -35,28 +35,28 @@ func Init(opt *Option) {
 	})
 }
 
-func Sync() {
-	_ = zap.L().Sync()
+func Sync() error {
+	return zap.L().Sync()
 }
 
-func Debug(ctx context.Context, message string, attr attributes.Attributes) {
-	zap.L().WithOptions(skipper).Debug(message, makeAttributes(ctx, attr)...)
+func Debug(message string, attr attributes.Attributes) {
+	zap.L().WithOptions(skipper).Debug(message, makeAttributes(attr)...)
 }
 
-func Info(ctx context.Context, message string, attr attributes.Attributes) {
-	zap.L().WithOptions(skipper).Info(message, makeAttributes(ctx, attr)...)
+func Info(message string, attr attributes.Attributes) {
+	zap.L().WithOptions(skipper).Info(message, makeAttributes(attr)...)
 }
 
-func Warn(ctx context.Context, message string, attr attributes.Attributes) {
-	zap.L().WithOptions(skipper).Warn(message, makeAttributes(ctx, attr)...)
+func Warn(message string, attr attributes.Attributes) {
+	zap.L().WithOptions(skipper).Warn(message, makeAttributes(attr)...)
 }
 
-func Fatal(ctx context.Context, message string, attr attributes.Attributes) {
-	zap.L().WithOptions(skipper).Fatal(message, makeAttributes(ctx, attr)...)
+func Fatal(message string, attr attributes.Attributes) {
+	zap.L().WithOptions(skipper).Fatal(message, makeAttributes(attr)...)
 }
 
-func Error(ctx context.Context, message string, attr attributes.Attributes) {
-	zap.L().WithOptions(skipper).Error(message, makeAttributes(ctx, attr)...)
+func Error(message string, attr attributes.Attributes) {
+	zap.L().WithOptions(skipper).Error(message, makeAttributes(attr)...)
 }
 
 func newZap(options ...zap.Option) (*zap.Logger, error) {
@@ -71,9 +71,9 @@ func newZapConfig() zap.Config {
 		panic(err)
 	}
 
-	return zap.Config{
+	log := zap.Config{
 		Level:       logLevel,
-		Development: false,
+		Development: true,
 		Sampling: &zap.SamplingConfig{
 			Initial:    100,
 			Thereafter: 100,
@@ -83,26 +83,32 @@ func newZapConfig() zap.Config {
 		OutputPaths:      []string{"stderr"},
 		ErrorOutputPaths: []string{"stderr"},
 	}
+
+	if env.GetEnvWithDefaultAsString("ENVIRONMENT", "prod") == "prod" {
+		log.Development = false
+	}
+
+	return log
 }
 
 func newZapEncoderConfig() zapcore.EncoderConfig {
 	return zapcore.EncoderConfig{
 		TimeKey:        "Timestamp",
-		LevelKey:       "SeverityText",
+		LevelKey:       "Severity",
 		NameKey:        "Logger",
 		CallerKey:      "Caller",
 		FunctionKey:    zapcore.OmitKey,
-		MessageKey:     "Body",
+		MessageKey:     "Message",
 		StacktraceKey:  "Stacktrace",
 		LineEnding:     zapcore.DefaultLineEnding,
 		EncodeLevel:    zapcore.CapitalLevelEncoder,
-		EncodeTime:     zapcore.EpochNanosTimeEncoder,
+		EncodeTime:     zapcore.RFC3339TimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
 }
 
-func makeAttributes(ctx context.Context, attr attributes.Attributes) []zapcore.Field {
+func makeAttributes(attr attributes.Attributes) []zapcore.Field {
 	if attr == nil {
 		attr = attributes.New()
 	}
