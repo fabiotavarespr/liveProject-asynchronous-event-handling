@@ -28,3 +28,14 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
     depends_on:
       - "zookeeper"
+
+  postgres:
+    image: postgres:10.19
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=liveproject
+    ports:
+      - '5432:5432'

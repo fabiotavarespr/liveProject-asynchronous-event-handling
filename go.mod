@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/arsmn/fiber-swagger/v2 v2.20.0
+	github.com/aws/aws-sdk-go v1.42.25
 	github.com/confluentinc/confluent-kafka-go v1.8.2
 	github.com/go-playground/validator/v10 v10.9.0
 	github.com/gofiber/fiber/v2 v2.22.0

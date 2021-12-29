@@ -1,42 +1,42 @@
 package queries
 
 import (
-	"github.com/google/uuid"
+	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/events"
 	"github.com/jmoiron/sqlx"
-	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/models"
 )
 
-// BookQueries struct for queries from Book model.
+// EventsQueries struct for queries from Events model.
 type EventsQueries struct {
 	*sqlx.DB
 }
 
-// GetBook method for getting one book by given ID.
+// EventExists method check if event has processed.
 func (q *EventsQueries) EventExists(event events.Event) (bool, error) {
-	// Define book variable.
-	book := models.Book{}
+	// Define result string
+	var id string
 
 	// Define query string.
-	query := `SELECT * FROM books WHERE id = $1`
+	query := `SELECT id FROM events.processed_events WHERE id=$1 AND event_name=$2`
 
 	// Send query to database.
-	err := q.Get(&book, query, id)
+	err := q.QueryRow(query, event.ID(), event.Name()).Scan(&id)
 	if err != nil {
 		// Return empty object and error.
-		return book, err
+		return false, err
 	}
 
+
 	// Return query result.
-	return book, nil
+	return len(id) > 0, nil
 }
 
-// CreateBook method for creating book by given Book object.
-func (q *EventsQueries) CreateEventevent events.Event) error {
+// CreateProcessedEvent method for creating processed_events by given event object.
+func (q *EventsQueries) CreateProcessedEvent(event events.Event) error {
 	// Define query string.
-	query := `INSERT INTO books VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+	query := `INSERT INTO events.processed_events (id, event_name, processed_timestamp) VALUES ($1, $2, $3)`
 
 	// Send query to database.
-	_, err := q.Exec(query, b.ID, b.CreatedAt, b.UpdatedAt, b.UserID, b.Title, b.Author, b.BookStatus, b.BookAttrs)
+	_, err := q.Exec(query, event.ID(), event.Name(), event.Timestamp())
 	if err != nil {
 		// Return only error.
 		return err

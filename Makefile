@@ -5,6 +5,8 @@ DOCKER_COMPOSE_CMD=docker-compose
 GO_TEST=$(GO_CMD) test
 CONTAINER_NAME=kafka
 PATH_DOCKER_COMPOSE_FILE=resources/scripts/docker-compose/docker-compose.yaml
+MIGRATIONS_FOLDER = $(PWD)/platform/migrations
+DATABASE_URL = postgres://postgres:123456@localhost:5432/liveproject?sslmode=disable
 
 .PHONY: all test vendor
 
@@ -99,3 +101,12 @@ download-dependencies: ## Download Dependencies
 
 swag-run: ## Run swag
 	~/go/bin/swag init -g cmd/api/main.go
+
+migrate-up:
+	docker run -v $(MIGRATIONS_FOLDER):/migrations --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) up
+
+migrate-down:
+	docker run -v $(MIGRATIONS_FOLDER):/migrations --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) down
+
+migrate-force:
+	docker run -v $(MIGRATIONS_FOLDER):/migrations --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) force $(version)
