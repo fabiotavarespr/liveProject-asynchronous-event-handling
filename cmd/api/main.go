@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/utils/env"
+	env "github.com/fabiotavarespr/go-env"
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/configs"

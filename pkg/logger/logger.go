@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/utils/env"
+	env "github.com/fabiotavarespr/go-env"
 	"sync"
 
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/logger/attributes"
