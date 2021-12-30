@@ -160,6 +160,7 @@ func translateOrderToEvent(o models.Order) events.Event {
 	var event = events.OrderConfirmed{
 		EventBase: events.BaseEvent{
 			EventID:        uuid.New(),
+			EventName:      topics.TopicOrderConfirmed,
 			EventTimestamp: time.Now(),
 		},
 		EventBody: o,

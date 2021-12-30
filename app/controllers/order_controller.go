@@ -54,6 +54,7 @@ func PostOrder(c *fiber.Ctx) error {
 	var event = events.OrderReceived{
 		EventBase: events.BaseEvent{
 			EventID:        uuid.New(),
+			EventName:      topics.TopicOrderReceived,
 			EventTimestamp: time.Now(),
 		},
 		EventBody: *order,

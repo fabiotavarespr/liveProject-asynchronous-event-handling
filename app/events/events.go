@@ -17,5 +17,6 @@ type Event interface {
 // BaseEvent represents common properties of an event
 type BaseEvent struct {
 	EventID        uuid.UUID
+	EventName      string
 	EventTimestamp time.Time
 }

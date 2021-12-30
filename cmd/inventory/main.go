@@ -16,8 +16,8 @@ import (
 
 func main() {
 	logger.Init(&logger.Option{
-		ServiceName:    env.GetEnvWithDefaultAsString("WORKER_NAME", "worker"),
-		ServiceVersion: env.GetEnvWithDefaultAsString("WORKER_VERSION", "0.0.1"),
+		ServiceName:    env.GetEnvWithDefaultAsString("INVENTORY_SERVICE", "Inventory"),
+		ServiceVersion: env.GetEnvWithDefaultAsString("INVENTORY_VERSION", "0.0.1"),
 		Environment:    env.GetEnvWithDefaultAsString("ENVIRONMENT", "dev"),
 		LogLevel:       env.GetEnvWithDefaultAsString("LOG_LEVEL", "info"),
 	})

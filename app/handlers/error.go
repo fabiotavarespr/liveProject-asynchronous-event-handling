@@ -24,6 +24,7 @@ func translateToErrorEvent(event events.Event) events.Event {
 	return events.Error{
 		EventBase: events.BaseEvent{
 			EventID:        uuid.New(),
+			EventName:      topics.TopicError,
 			EventTimestamp: time.Now(),
 		},
 		EventBody: event,
