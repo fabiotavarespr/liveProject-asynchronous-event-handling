@@ -1,0 +1,114 @@
+basePath: /
+definitions:
+  models.Address:
+    properties:
+      city:
+        type: string
+      line1:
+        type: string
+      line2:
+        type: string
+      postalCode:
+        type: string
+      state:
+        type: string
+    required:
+    - city
+    - line1
+    - postalCode
+    - state
+    type: object
+  models.Customer:
+    properties:
+      emailAddress:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      shippingAddress:
+        $ref: '#/definitions/models.Address'
+    required:
+    - emailAddress
+    - firstName
+    - lastName
+    - shippingAddress
+    type: object
+  models.Health:
+    properties:
+      status:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      customer:
+        $ref: '#/definitions/models.Customer'
+      id:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+    required:
+    - customer
+    - id
+    - products
+    type: object
+  models.Product:
+    properties:
+      productCode:
+        type: string
+      quantity:
+        type: integer
+    required:
+    - productCode
+    - quantity
+    type: object
+info:
+  contact:
+    email: your@mail.com
+    name: API Support
+  description: This is an auto-generated API Docs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      description: Health check.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Health'
+            type: array
+      summary: health check
+  /v1/order:
+    post:
+      consumes:
+      - application/json
+      description: Create a new order.
+      parameters:
+      - description: Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: create a new order
+      tags:
+      - Order
+swagger: "2.0"

@@ -2,50 +2,36 @@
 [Manning Live Project - Asynchronous Event Handling Using Microservices and Kafka](https://www.manning.com/liveproject/asynchronous-event-handling-using-microservices-and-kafka)
 
 - [Live Project - Asynchronous Event Handling Using Microservices and Kafka](#live-project---asynchronous-event-handling-using-microservices-and-kafka)
-  - [About this liveProject](#about-this-liveproject)
-  - [Techniques employed](#techniques-employed)
-  - [Project outline](#project-outline)
-    
-## About this liveProject
-There are many facets to building an e-commerce system: from the customer shopping experience all the way to the fulfillment and delivery of the products to the customer. The simplicity of the architecture and the speed at which an order can be processed, beginning to end, can have a large impact on the market share and market valuation a company has. Leveraging an asynchronous, event-driven architecture can lead to decoupled and single-focused applications and services that can scale and evolve independently.
+- [Milestone - 4](#milestone---4)
+  - [Objective](#objective)
+  - [Importance to project](#importance-to-project)
+  - [Workflow](#workflow)
+  - [Deliverable](#deliverable)
 
-PPE 4 Peeps is a small, online, consumer-based retailer of healthcare-related personal protective equipment (PPE). Due to a dramatic rise in demand for PPE, the company is looking to optimize their e-commerce system in order to deliver their products to consumers faster. The current e-commerce system is a monolith that has grown increasingly hard to maintain over the years. It operates in a synchronous manner, which means that each step in the process relies on the completion of a previous step. This leads to unnecessary bottlenecks and waste in the system.
+# Milestone - 4
+Build an Inventory Consumer That Handles Order Received Events
 
-In this liveProject, you are being asked to break apart the order fulfillment part of the monolith into loosely coupled and highly cohesive microservices as well as incorporate asynchronous event handling as the main communication mechanism between them. This approach will allow the system to operate more in parallel and enable each part of the order fulfillment process to evolve and scale independently. You will build microservices in the Go programming language with Kafka as the communication mechanism between them, leveraging its ability to send events between applications, processes, and servers. You will also handle situations in which an event can’t be processed successfully as well as define metrics that will help evaluate the performance of the system that you build.
+## Objective
 
-## Techniques employed
-The following are some of the techniques you’ll employ throughout this project. Don’t worry if you haven’t mastered any of these areas—we’ll give you the necessary resources to learn more about each.
+- Programmatically consume events from a topic in Kafka while handling duplicates.
+- Programmatically publish an error event to a topic in Kafka.
 
-Go is a versatile and open-source programming language that was first developed by Google and released in 2012. Since then, the language has grown in popularity and is considered one of the fastest-growing programming languages in the software industry. Go performs well, has fast compilation, and is easy to use.
+## Importance to project
 
-In this liveProject, we will use Go to do the following:
+- The goal of this milestone is to gain experience programmatically subscribing to a topic in Kafka and handling duplicate events in an idempotent manner. This consumer is the first of many consumers that will be built in this project. It will also be the recipient of the first event published in this project (from Milestone 1) and one of three consumers that will receive the event asynchronously. The other two consumers will be built in the next milestone.
+- This will also be the first time that errors will be published as events to the DeadLetterQueue topic in Kafka. This pattern is useful when creating a common and consistent process for error handling in the case an event can’t be processed successfully.
 
-- Build a microservice.
-- Build an event publisher.
-- Build multiple event consumers.
+## Workflow
 
-Kafka is an increasingly popular, open-source, distributed streaming data platform. It offers three main capabilities: publication and subscription of streaming data, fault-tolerant and durable data storage, and real-time data processing. These capabilities will be key in enabling our system to handle and process events asynchronously. A topic is essentially a named container of data. All data sent to Kafka is stored in topics. Because Kafka durably persists the data it is sent, a consumer can retrieve data as far back as the retention period is configured for the topic. This means that if an application that consumes data from a Kafka topic goes down, when the application comes back up, it could resume processing data where it left off. The opportunity for data loss is significantly low to nonexistent, which is one of the main reasons Kafka was chosen for this project.
+- 1 Create a new Inventory consumer in Go.
+  - Create a long-lived subscription to the OrderReceived topic in Kafka.
+  - Create functionality that extracts (and logs) the order information from the relevant event schema.
+    - Treat received events in an idempotent manner, meaning any duplicates that are received must not create any side effects within the system. This can be achieved by two potential solutions: configuring the topic to enable idempotence or handling the duplicate checking in the event consumer by tracking the events processed to detect and discard duplicates.
+    - Consider carefully which configuration option the consumer should use to handle Kafka message offset resets. Please refer to the notes below about offsets for more information.
+  - Publish an event to the OrderConfirmed Kafka topic when an order has been verified not to be a duplicate.
+  - Create functionality that publishes an error event containing the received OrderReceived event to the DeadLetterQueue topic in Kafka when the event can’t be processed successfully. This is the first time you are being asked to publish an error event. You created an error event schema in Milestone 1. If any errors occur when processing the OrderReceived event, create and publish an error event to the DeadLetterQueue topic representing the error received.
+- 2 Test that the Inventory consumer works as expected by posting an order payload to a running Order service. Verify that the correct order was received and logged in the Inventory consumer. You should also be able to verify that an event was published to the OrderConfirmed Kafka topic. The easiest way to verify that an event exists in a topic is to use the command illustrated in Step 5 of the “Apache Kafka Quickstart” guide. If any errors occurred while processing the OrderReceived event, you should be able to confirm that an event was published to the DeadLetterQueue Kafka topic.
 
-In this liveProject, you will use Kafka to do the following:
+## Deliverable
 
-- Use the command-line tools provided to create, alter, and test topics.
-- Publish events to multiple topics.
-- Consume events from multiple topics.
-
-## Project outline
-The project covers five key concepts: event schema creation, topic creation, publishing an event to a topic programmatically, consuming an event from a topic programmatically, and defining and publishing metrics that will aid in evaluating performance of the system. The learning and implementation of these concepts will take place over six milestones that will each build on its predecessor. These milestones are broadly titled as follows:
-
-1. Kafka Basics Using the Command Line
-
-2. Build a Basic Microservice and Kafka Event Publisher
-
-3. Build an Order Service and Publish a First Event
-
-4. Build an Inventory Consumer That Handles Order Received Events
-
-5. Build Notification, Warehouse, and Shipper Consumers
-
-6. Define and Use KPIs To Evaluate System Performance
-
-By the end of this liveProject you will have created five Kafka topics, a Go microservice, a Go event publisher, and four Go event consumers. These all add up to a system that communicates asynchronously, can process multiple events in parallel, and can be scaled independently. Throughout the project, there will be many opportunities to practice and hone your craft.
-
+The deliverable for this milestone is an Inventory consumer that will be subscribed to the OrderReceived topic in Kafka and can publish events to both the OrderConfirmed and DeadLetterQueue topics in Kafka.
