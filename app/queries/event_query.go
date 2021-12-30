@@ -22,7 +22,7 @@ func (q *EventsQueries) EventExists(event events.Event) (bool, error) {
 	err := q.QueryRow(query, event.ID(), event.Name()).Scan(&id)
 	if err != nil {
 		// Return empty object and error.
-		return false, err
+		return false, nil
 	}
 
 	// Return query result.

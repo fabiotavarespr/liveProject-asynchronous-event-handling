@@ -1,10 +1,9 @@
 package topics
 
 const (
-	TopicError                = "Error"
+	TopicError                = "DeadLetterQueue"
 	TopicOrderReceived        = "OrderReceived"
 	TopicOrderConfirmed       = "OrderConfirmed"
 	TopicOrderPickedAndPacked = "OrderPickedAndPacked"
 	TopicNotification         = "Notification"
-	TopicDeadLetterQueue      = "DeadLetterQueue"
 )

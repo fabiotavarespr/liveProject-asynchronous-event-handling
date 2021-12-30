@@ -33,3 +33,10 @@ func (attr Attributes) WithError(err error) Attributes {
 
 	return attr
 }
+
+func (attr Attributes) WithField(attKey string, attValue interface{}) Attributes {
+	if attKey != "" {
+		attr[attKey] = attValue
+	}
+	return attr
+}

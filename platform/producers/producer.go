@@ -2,14 +2,13 @@ package producers
 
 import (
 	"encoding/json"
-	"os"
-
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/fabiotavarespr/go-env"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/events"
 )
 
 func ProducerEvent(event events.Event, topic string) error {
-	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": os.Getenv("BROKER_ADDRESS")})
+	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": env.GetEnvWithDefaultAsString("BROKER_ADDRESS", "localhost:9092")})
 	if err != nil {
 		return err
 	}

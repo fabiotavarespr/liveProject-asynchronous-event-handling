@@ -2,8 +2,7 @@ package database
 
 import (
 	"fmt"
-	"os"
-	"strconv"
+	"github.com/fabiotavarespr/go-env"
 	"time"
 
 	"github.com/jmoiron/sqlx"
@@ -14,12 +13,12 @@ import (
 // PostgreSQLConnection func for connection to PostgreSQL database.
 func PostgreSQLConnection() (*sqlx.DB, error) {
 	// Define database connection settings.
-	maxConn, _ := strconv.Atoi(os.Getenv("DB_MAX_CONNECTIONS"))
-	maxIdleConn, _ := strconv.Atoi(os.Getenv("DB_MAX_IDLE_CONNECTIONS"))
-	maxLifetimeConn, _ := strconv.Atoi(os.Getenv("DB_MAX_LIFETIME_CONNECTIONS"))
+	maxConn := env.GetEnvWithDefaultAsInt("DB_MAX_CONNECTIONS", 100)
+	maxIdleConn := env.GetEnvWithDefaultAsInt("DB_MAX_IDLE_CONNECTIONS", 10)
+	maxLifetimeConn := env.GetEnvWithDefaultAsInt("DB_MAX_LIFETIME_CONNECTIONS", 2)
 
 	// Define database connection for PostgreSQL.
-	db, err := sqlx.Connect("pgx", os.Getenv("DB_SERVER_URL"))
+	db, err := sqlx.Connect("pgx", env.GetEnvWithDefaultAsString("DB_SERVER_URL", "host=localhost port=5432 user=postgres password=123456 dbname=liveproject sslmode=disable"))
 	if err != nil {
 		return nil, fmt.Errorf("error, not connected to database, %w", err)
 	}

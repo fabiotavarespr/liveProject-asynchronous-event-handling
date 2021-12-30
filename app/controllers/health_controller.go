@@ -24,10 +24,7 @@ func GetHealth(c *fiber.Ctx) error {
 		Status: UP,
 	}
 
-	details := attributes.New()
-	details["health"] = health
-
-	logger.Info("Handler - GET - Health", details)
+	logger.Info("Handler - GET - Health", attributes.New().WithField("health", health))
 
 	// Return status 200 OK.
 	return c.JSON(fiber.Map{

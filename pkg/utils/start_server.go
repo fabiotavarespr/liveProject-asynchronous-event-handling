@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/fabiotavarespr/go-env"
 	"log"
 	"os"
 	"os/signal"
@@ -28,7 +29,7 @@ func StartServerWithGracefulShutdown(a *fiber.App) {
 	}()
 
 	// Run server.
-	if err := a.Listen(os.Getenv("SERVER_URL")); err != nil {
+	if err := a.Listen(env.GetEnvWithDefaultAsString("SERVER_URL", "0.0.0.0:8000")); err != nil {
 		log.Printf("Oops... Server is not running! Reason: %v", err)
 	}
 
@@ -38,7 +39,7 @@ func StartServerWithGracefulShutdown(a *fiber.App) {
 // StartServer func for starting a simple server.
 func StartServer(a *fiber.App) {
 	// Run server.
-	if err := a.Listen(os.Getenv("SERVER_URL")); err != nil {
+	if err := a.Listen(env.GetEnvWithDefaultAsString("SERVER_URL", "0.0.0.0:8000")); err != nil {
 		log.Printf("Oops... Server is not running! Reason: %v", err)
 	}
 }
