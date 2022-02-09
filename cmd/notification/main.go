@@ -40,8 +40,8 @@ func main() {
 	c := consumers.Consumer{
 		Broker: env.GetEnvWithDefaultAsString("BROKER_ADDRESS", "localhost:9092"),
 		Group:  env.GetEnvWithDefaultAsString("CONSUMER_GROUP", "test-consumer-group"),
-		Topic:  topics.TopicOrderReceived,
+		Topic:  topics.TopicNotification,
 	}
 
-	log.Fatal(c.OrderSubscribeAndListen())
+	log.Fatal(c.NotificationSubscribeAndListen())
 }
