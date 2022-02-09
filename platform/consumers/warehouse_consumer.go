@@ -7,23 +7,19 @@ import (
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/events"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/handlers"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/models"
-	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/app/topics"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/logger"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/pkg/logger/attributes"
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/platform/database"
-	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/platform/producers"
-	"github.com/google/uuid"
-	"time"
 )
 
-// OrderSubscribeAndListen will subscribe to a Kafka topic and start polling and listening for events
+// WarehouseSubscribeAndListen will subscribe to a Kafka topic and start polling and listening for events
 // Adpated from https://github.com/confluentinc/confluent-kafka-go#examples
-func (c *Consumer) OrderSubscribeAndListen() error {
+func (c *Consumer) WarehouseSubscribeAndListen() error {
 
 	kc, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers":     c.Broker,
 		"broker.address.family": "v4",
-		"group.id":              c.Group + "-inventory",
+		"group.id":              c.Group + "-warehouse",
 		"session.timeout.ms":    6000,
 		"auto.offset.reset":     "earliest"})
 
@@ -54,7 +50,7 @@ func (c *Consumer) OrderSubscribeAndListen() error {
 
 		logger.Info(string(msg.Value), attributes.New().WithField("topic", msg.TopicPartition))
 
-		var event events.OrderReceived
+		var event events.OrderConfirmed
 		if err = json.Unmarshal([]byte(string(msg.Value)), &event); err != nil {
 			logger.Error("an issue occurred unmarshalling event from message received", attributes.New().WithField("error", err))
 
@@ -62,22 +58,15 @@ func (c *Consumer) OrderSubscribeAndListen() error {
 		}
 
 		var order models.Order
-		if order, err = extractOrder(event); err != nil {
+		if order, err = extractWarehouseOrder(event); err != nil {
 			logger.Error("an issue occurred trying to extract order information from the order received event", attributes.New().WithError(err))
 
 			handlers.HandleError(event)
 			continue
 		}
 
-		if err = processOrderEvent(event, order); err != nil {
+		if err = processWarehouseEvent(event, order); err != nil {
 			logger.Error("an issue occurred trying to process the event", attributes.New().WithError(err))
-
-			handlers.HandleError(event)
-			continue
-		}
-
-		if err = publishOrderConfirmedEvent(order); err != nil {
-			logger.Error("an issue occurred trying to publish an order confirmed event", attributes.New().WithError(err))
 
 			handlers.HandleError(event)
 			continue
@@ -85,7 +74,7 @@ func (c *Consumer) OrderSubscribeAndListen() error {
 	}
 }
 
-func extractOrder(event events.OrderReceived) (models.Order, error) {
+func extractWarehouseOrder(event events.OrderConfirmed) (models.Order, error) {
 	logger.Info("attempting to extract order from event", attributes.New().WithField("event", event))
 
 	body := event.Body()
@@ -97,7 +86,7 @@ func extractOrder(event events.OrderReceived) (models.Order, error) {
 	return order, nil
 }
 
-func processOrderEvent(event events.Event, order models.Order) error {
+func processWarehouseEvent(event events.Event, order models.Order) error {
 	var err error
 
 	db, err := database.OpenDBConnection()
@@ -120,9 +109,10 @@ func processOrderEvent(event events.Event, order models.Order) error {
 		return nil
 	}
 
-	// event hasn't been processed yet, decrement the inventory
-	if err = handlers.DecrementInventory(order); err != nil {
-		logger.Error("an issue occurred trying to decrement the inventory", attributes.New().WithError(err))
+	// event hasn't been processed yet, pick and pack the order
+	if err = handlers.PickAndPackOrder(order); err != nil {
+		logger.Error("an issue occurred trying to pick and pack the order", attributes.New().WithError(err))
+
 		return err
 	}
 
@@ -133,33 +123,4 @@ func processOrderEvent(event events.Event, order models.Order) error {
 	}
 
 	return nil
-}
-
-func publishOrderConfirmedEvent(o models.Order) error {
-	// publish an order confirmed event
-	e := translateOrderToEvent(o)
-
-	logger.Info("transformed order to event", attributes.New().WithField("event", e))
-
-	var err error
-	if err = producers.ProducerEvent(e, topics.TopicOrderConfirmed); err != nil {
-		return err
-	}
-
-	logger.Info("published event", attributes.New().WithField("event", e))
-
-	return nil
-}
-
-func translateOrderToEvent(o models.Order) events.Event {
-	var event = events.OrderConfirmed{
-		EventBase: events.BaseEvent{
-			EventID:        uuid.New(),
-			EventName:      topics.TopicOrderConfirmed,
-			EventTimestamp: time.Now(),
-		},
-		EventBody: o,
-	}
-
-	return event
 }

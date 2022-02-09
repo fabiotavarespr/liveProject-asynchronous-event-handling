@@ -13,7 +13,7 @@ import (
 	"github.com/fabiotavarespr/liveProject-asynchronous-event-handling/platform/database"
 )
 
-// SubscribeAndListen will subscribe to a Kafka topic and start polling and listening for events
+// NotificationSubscribeAndListen will subscribe to a Kafka topic and start polling and listening for events
 // Adpated from https://github.com/confluentinc/confluent-kafka-go#examples
 func (c *Consumer) NotificationSubscribeAndListen() error {
 
@@ -62,7 +62,7 @@ func (c *Consumer) NotificationSubscribeAndListen() error {
 
 		notification, err := extractNotification(event)
 		if err != nil {
-			logger.Error("an issue occurred trying to extract order information from the order recieved event", attributes.New().WithError(err))
+			logger.Error("an issue occurred trying to extract order information from the order received event", attributes.New().WithError(err))
 
 			handlers.HandleError(event)
 			continue

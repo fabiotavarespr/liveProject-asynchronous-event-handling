@@ -95,11 +95,14 @@ tidy: ## Go Mod tidy
 run-order: fmt ## Run order project
 	$(GO_CMD) run cmd/order/main.go
 
-run-inventory: fmt ## Run inventory project
+run-inventory: fmt ## Run inventory consumer
 	$(GO_CMD) run cmd/inventory/main.go
 
-run-notification: fmt ## Run notification project
+run-notification: fmt ## Run notification consumer
 	$(GO_CMD) run cmd/notification/main.go
+
+run-warehouse: fmt ## Run warehouse consumer
+	$(GO_CMD) run cmd/warehouse/main.go
 
 download-dependencies: ## Download Dependencies
 	go get -d github.com/swaggo/swag/cmd/swag
