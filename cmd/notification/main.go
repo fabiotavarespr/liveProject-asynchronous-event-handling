@@ -16,8 +16,8 @@ import (
 
 func main() {
 	logger.Init(&logger.Option{
-		ServiceName:    env.GetEnvWithDefaultAsString("INVENTORY_SERVICE", "Inventory"),
-		ServiceVersion: env.GetEnvWithDefaultAsString("INVENTORY_VERSION", "0.0.1"),
+		ServiceName:    env.GetEnvWithDefaultAsString("NOTIFICATION_SERVICE", "Notification"),
+		ServiceVersion: env.GetEnvWithDefaultAsString("NOTIFICATION_VERSION", "0.0.1"),
 		Environment:    env.GetEnvWithDefaultAsString("ENVIRONMENT", "dev"),
 		LogLevel:       env.GetEnvWithDefaultAsString("LOG_LEVEL", "info"),
 	})
@@ -40,8 +40,8 @@ func main() {
 	c := consumers.Consumer{
 		Broker: env.GetEnvWithDefaultAsString("BROKER_ADDRESS", "localhost:9092"),
 		Group:  env.GetEnvWithDefaultAsString("CONSUMER_GROUP", "test-consumer-group"),
-		Topic:  topics.TopicOrderReceived,
+		Topic:  topics.TopicNotification,
 	}
 
-	log.Fatal(c.OrderSubscribeAndListen())
+	log.Fatal(c.NotificationSubscribeAndListen())
 }
