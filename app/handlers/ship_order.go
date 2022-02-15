@@ -13,28 +13,19 @@ import (
 	"time"
 )
 
-// PickAndPackOrder will alert the warehouse personnel to pick and pack the customers order
-func PickAndPackOrder(order models.Order) error {
-	logger.Info("attempting to alert warehouse personnel to pick and pack order", attributes.New().WithField("order.id", order.ID))
+// ShipOrder will alert the customer the order is being shipped
+func ShipOrder(order models.Order) error {
+	logger.Info("attempting to alert the customer the order is being shipped", attributes.New().WithField("order.id", order.ID))
 
-	// We are not actually connecting to the warehouse system, so just log it for now
-	for _, p := range order.Products {
-		logger.Info("picking product to be packed for shipping",
-			attributes.New().
-				WithField("order.id", order.ID).
-				WithField("product.code", p.ProductCode).
-				WithField("product.quantity", p.Quantity))
-	}
-
-	// notify the customer the order is being picked and packed
+	// notify the customer the order is being shipped
 	var b strings.Builder
 	for _, p := range order.Products {
 		fmt.Fprintf(&b, "%d of product [%s]", p.Quantity, p.ProductCode)
 	}
 
 	address := fmt.Sprintf("<div>Shipping to Address:</div><div>%s</div><div>%s %s, %s</div>", order.Customer.ShippingAddress.Line1, order.Customer.ShippingAddress.City, order.Customer.ShippingAddress.State, order.Customer.ShippingAddress.PostalCode)
-	subject := fmt.Sprintf("Hello %s, your order has been received.", order.Customer.FirstName)
-	body := fmt.Sprintf("<div>Your order has been received and we will be preparing it for shipping as soon as possible. Here is a review of the products in your order:</div><div>%s</div><div>%s</div>", b.String(), address)
+	subject := fmt.Sprintf("Hello %s, your order is being shipped!", order.Customer.FirstName)
+	body := fmt.Sprintf("<div>Your order is on its way! Here is a review of the products in your order:</div><div>%s</div><div>%s</div>", b.String(), address)
 
 	var err error
 	event := events.Notification{

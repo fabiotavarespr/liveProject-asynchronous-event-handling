@@ -104,6 +104,9 @@ run-notification: fmt ## Run notification consumer
 run-warehouse: fmt ## Run warehouse consumer
 	$(GO_CMD) run cmd/warehouse/main.go
 
+run-shipper: fmt ## Run shipper consumer
+	$(GO_CMD) run cmd/shipper/main.go
+
 download-dependencies: ## Download Dependencies
 	go get -d github.com/swaggo/swag/cmd/swag
 	go install github.com/swaggo/swag/cmd/swag@latest
