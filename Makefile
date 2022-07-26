@@ -115,10 +115,10 @@ swag-run: ## Run swag
 	~/go/bin/swag init -g cmd/api/main.go
 
 migrate-up:
-	docker run --rm -v $(MIGRATIONS_FOLDER):/migrations --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) up
+	docker run --rm -v $(MIGRATIONS_FOLDER):/migrations --platform linux/amd64 --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) up
 
 migrate-down:
-	docker run --rm -v $(MIGRATIONS_FOLDER):/migrations --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) down -all
+	docker run --rm -v $(MIGRATIONS_FOLDER):/migrations --platform linux/amd64 --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) down -all
 
 migrate-force:
-	docker run --rm -v $(MIGRATIONS_FOLDER):/migrations --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) force $(version)
+	docker run --rm -v $(MIGRATIONS_FOLDER):/migrations --platform linux/amd64 --network host migrate/migrate -path=/migrations/ -database $(DATABASE_URL) force $(version)
